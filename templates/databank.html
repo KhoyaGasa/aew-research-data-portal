@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEW Research & Strategy Data Portal</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <style>
+        .tools-bar {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+        }
+        .tools-bar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .tools-bar li {
+            margin-right: 20px;
+        }
+        .tools-bar a {
+            color: white;
+            text-decoration: none;
+        }
+        .tools-bar a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <div class="text-center">
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="AEW Logo" class="img-fluid my-3" style="max-width: 80%;">
+                    </div>
+                    <h5>Filters</h5>
+                    <form method="POST" action="{{ url_for('query') }}">
+                        <div class="form-group">
+                            <label for="county">Country</label>
+                            <select class="form-control" id="county" name="country[]" multiple>
+                                {% for country in all_countries %}
+                                    <option value="{{ country }}">{{ country }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sector">Sector</label>
+                            <select class="form-control" id="sector" name="sector[]" multiple>
+                                {% for sector in all_sectors %}
+                                    <option value="{{ sector }}">{{ sector }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="variables">Variables</label>
+                            <select class="form-control" id="variables" name="variables[]" multiple>
+                                {% for variable in all_variables %}
+                                    <option value="{{ variable }}">{{ variable }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <select class="form-control" id="city" name="city[]" multiple>
+                                {% for city in all_cities %}
+                                    <option value="{{ city }}">{{ city }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year-range">Year Range</label>
+                            <p>From:</p>
+                            <select class="form-control" id="year-range" name="from_year">
+                                {% for year_range in all_years %}
+                                    <option value="{{ year_range }}">{{ year_range }}</option>
+                                {% endfor %}
+                            </select>
+                            <p>To:</p>
+                            <select class="form-control" id="year-range" name="to_year">
+                                {% for year_range in all_years %}
+                                    <option value="{{ year_range }}">{{ year_range }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="text-center my-3">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button type="reset" class="btn btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Research & Strategy Portal</h1>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="graph1" class="graph-container">
+                            {% if graph1 %}
+                                <img src="{{ url_for('static', filename='images/graph1.png') }}?t={{ timestamp }}" class="img-fluid">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="graph2" class="graph-container">
+                            {% if graph2 %}
+                                <img src="{{ url_for('static', filename='images/graph2.png') }}?t={{ timestamp }}" class="img-fluid">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="graph3" class="graph-container">
+                            {% if graph3 %}
+                                <img src="{{ url_for('static', filename='images/graph3.png') }}?t={{ timestamp }}" class="img-fluid">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="graph4" class="graph-container">
+                            {% if graph4 %}
+                                <img src="{{ url_for('static', filename='images/graph4.png') }}?t={{ timestamp }}" class="img-fluid">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
